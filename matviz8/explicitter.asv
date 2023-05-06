@@ -1,0 +1,10 @@
+clear
+syms x y
+f(x,y) = sin(x) + cos(y);
+fsurf(f,,'y')
+axis equal
+
+hold on
+fimplicit(f, 'r')
+
+plot3(3, 4, f(3,4), '*b')

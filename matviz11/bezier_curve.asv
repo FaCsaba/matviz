@@ -1,0 +1,28 @@
+clear
+% approximate curve
+% interpolates between two point's and approximates the other 2
+% Beziér curve t goes from 0 to 1
+
+% control poligon
+% draws the control points together
+% the curve is always inside the control poligon
+% négy pontra harmad fokú ilyenkor n = 3
+
+% there are two possible calculation
+
+% Input: the control points
+% [P(1,2), P(6,5), P(10,2), P(8, -1)]
+
+px = [ 1 6 10 8 ];
+py = [ 2 5 2 -1 ];
+plot(px, py, '*')
+
+axis([-3 14 -4 8]); axis equal; hold on;
+syms t
+cx(t) = 0*t; cy(t) = 0*t;
+n = 3;
+for i=0:n
+    b(t) = nchoosek()
+end
+
+

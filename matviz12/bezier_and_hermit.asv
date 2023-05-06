@@ -1,0 +1,40 @@
+
+bezier_p_x = [0, 2, 4, 6, 5];
+bezier_p_y = [1, -2, -2, 2, 4];
+n = numel(bezier_p_x) - 1;
+
+hermite_p_x = [bezier_p_x(numel(bezier_p_x)), 10];
+hermite_p_y = [bezier_p_y(numel(bezier_p_y)), 6];
+
+hold on;
+plot(bezier_p_x, bezier_p_y, '*--')
+
+syms t
+cx(t) = 0*t; cy(t) = 0*t;
+for i=0:n
+    b(t) = nchoosek(n, i)* t^i * (1-t)^(n-i);
+    cx(t) = cx(t) + bezier_p_x(i+1) * b(t);
+    cy(t) = cy(t) + bezier_p_y(i+1) * b(t);
+end
+fplot(cx, cy, [0,1])
+
+hermite_v_x = [n(bezier_p_x(5) - bezier_p_x(4)), 2];
+hermite_v_y = [n(bezier_p_y(5) - bezier_p_y(4)), -4];
+
+syms a3 a2 a1 a0 t
+cx(t) = a3 * t^3 + a2 * t^2 + a1 * t + a0;
+cxd(t) = diff(cx, t);
+eq = [ cx(t1) == px(1), cx(t2) == px(2), ...
+    cxd(t1) == vx(1), cxd(t2) == vx(2)];
+m = solve( eq, [ a3 a2 a1 a0]);
+x(t) = subs(cx, [ a3 a2 a1 a0], [m.a3 m.a2 m.a1 m.a0])
+
+syms b3 b2 b1 b0
+cy(t) = b3 * t^3 + b2 * t^2 + b1 * t + b0;
+cyd(t) = diff(cy, t);
+eq = [ cy(t1) == py(1), cy(t2) == py(2), ...
+    cyd(t1) == vy(1), cyd(t2) == vy(2)];
+m = solve( eq, [ b3 b2 b1 b0]);
+y(t) = subs(cy, [ b3 b2 b1 b0], [m.b3 m.b2 m.b1 m.b0])
+
+fplot(x, y, [t1 t2], 'b')
